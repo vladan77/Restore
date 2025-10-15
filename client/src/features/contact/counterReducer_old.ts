@@ -1,6 +1,3 @@
-import { createSlice } from "@reduxjs/toolkit";
-
-
 export type CounterState = {
   data: number;
 };
@@ -9,30 +6,14 @@ const initialState: CounterState = {
   data: 42,
 };
 
-export const counterSlice = createSlice({
-  name: "counter",
-  initialState,
-  reducers: { 
-    increment: (state, action) => {
-       state.data += action.payload  
-      } ,
-    decrement: (state, action) => { 
-      state.data -= action.payload 
-    }
-  }
-}); 
-
-export const { increment, decrement } = counterSlice.actions;
-
-// Legacy Redux (without Redux Toolkit) implementation
-export function incrementLegacy(amount = 1) {
+export function increment(amount = 1) {
   return {
     type: "INCREMENT",
     payload: amount,
   };
 }
 
-export function decrementLegacy(amount = 1) {
+export function decrement(amount = 1) {
   return {
     type: "DECREMENT",
     payload: amount,
