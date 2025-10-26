@@ -15,8 +15,10 @@ import { useFetchProductDetailsQuery } from "./catalogApi";
 
 export default function ProductDetails() {
   const { id } = useParams();
-const {data: product, isLoading} = useFetchProductDetailsQuery(id ? parseInt(id) : 0);
-//   const [product, setProduct] = useState<Product | null>(null);
+  const { data: product, isLoading } = useFetchProductDetailsQuery(
+    id ? parseInt(id) : 0
+  );
+  //   const [product, setProduct] = useState<Product | null>(null);
   if (!product || isLoading) return <h3>Loading...</h3>;
 
   const productDetails = [
