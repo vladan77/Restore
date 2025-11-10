@@ -4,13 +4,11 @@ import { useFetchProductsQuery } from "./catalogApi";
 export default function Catalog() {
   const {data, isLoading} = useFetchProductsQuery();
 
-  if(isLoading || !data) return <h3>Loading...</h3>
+  if (isLoading || !data) return <div>Loading...</div>
+  
   return (
     <>
-      <ul>
-       <ProductList products={data} />
-      </ul>
-      
+      <ProductList products={data} />
     </>
-  );
+  )
 }
