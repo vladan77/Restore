@@ -27,7 +27,7 @@ export default function Catalog() {
   return (
     <Grid2 container spacing={4}>
       <Grid2 size={3}>
-        <Filters data={filtersData} />
+        <Filters filtersData={filtersData} />
       </Grid2>
       <Grid2 size={9}>
         {data.items && data.items.length > 0 ? (
