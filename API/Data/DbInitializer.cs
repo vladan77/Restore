@@ -1,5 +1,7 @@
 using System;
+using System.Threading.Tasks;
 using API.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data;
@@ -9,16 +11,50 @@ public class DbInitializer
     public static void InitDb(WebApplication app)
     {
         using var scope = app.Services.CreateScope();
+        
         var context = scope.ServiceProvider.GetRequiredService<StoreContext>()
-        ?? throw new InvalidOperationException("Faild to retriewe store context");
+        ?? throw new InvalidOperationException("Failed to retrieve store context");
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>()
+        ?? throw new InvalidOperationException("Failed to retrieve user manager");
 
-        SeedData(context);
+        SeedData(context, userManager);
         
     }
 
-    private static void SeedData(StoreContext context)
+    private static async Task SeedData(StoreContext context, UserManager<User> userManager)
     {
         context.Database.Migrate();
+
+        if(!userManager.Users.Any())
+        {
+            var user = new User
+            {
+                 UserName = "bob@test.com", 
+                 Email = "bob@test.com",
+                 EmailConfirmed = true 
+            };
+            await userManager.CreateAsync(user, "Pa$$w0rd");
+            await userManager.AddToRoleAsync(user, "Member");
+
+            var admin = new User
+            {
+                 UserName = "admin@test.com", 
+                 Email = "admin@test.com",
+                 EmailConfirmed = true 
+            };
+            await userManager.CreateAsync(admin, "Pa$$w0rd");
+            await userManager.AddToRolesAsync(admin, ["Member", "Admin"]);
+            // var users = new List<User>
+            // {
+            //     new() { UserName = "member", Email = "member@test.com", EmailConfirmed = true },
+            //     new() { UserName = "admin", Email = "admin@test.com", EmailConfirmed = true }
+            // };
+
+            // foreach (var user in users)
+            // {
+            //     userManager.CreateAsync(user, "Pa$$w0rd").Wait();
+            // }
+        }
 
         if (context.Products.Any()) return;
 
