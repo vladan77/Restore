@@ -1,10 +1,10 @@
 import { Grid2, Typography } from "@mui/material";
 import OrderSummary from "../../app/shared/components/OrderSummary";
 import CheckoutStepper from "./CheckoutStepper";
-import { loadStripe,type StripeElementsOptions  } from "@stripe/stripe-js";
+import { loadStripe, type StripeElementsOptions } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import { useEffect, useMemo, useRef } from "react";
 import { useFetchBasketQuery } from "../basket/basketApi";
+import { useEffect, useMemo, useRef } from "react";
 import { useCreatePaymentIntentMutation } from "./checkoutApi";
 import { useAppSelector } from "../../app/store/store";
 
@@ -12,14 +12,15 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 
 export default function CheckoutPage() {
   const { data: basket } = useFetchBasketQuery();
-  const [createPaymentIntent, { isLoading }] = useCreatePaymentIntentMutation();
+  const [createPaymentIntent, {isLoading}] = useCreatePaymentIntentMutation();
   const created = useRef(false);
   const {darkMode} = useAppSelector(state => state.ui);
 
   useEffect(() => {
     if (!created.current) createPaymentIntent();
     created.current = true;
-  }, [createPaymentIntent]);
+  }, [createPaymentIntent])
+
 
   const options: StripeElementsOptions | undefined = useMemo(() => {
     if (!basket?.clientSecret) return undefined;
@@ -27,10 +28,10 @@ export default function CheckoutPage() {
       clientSecret: basket.clientSecret,
       appearance: {
         labels: 'floating',
-        theme: darkMode ? 'night' : 'stripe',
-      } 
-    };
-  }, [basket?.clientSecret, darkMode]);
+        theme: darkMode ? 'night' : 'stripe'
+      }
+    }
+  }, [basket?.clientSecret, darkMode])
 
   return (
     <Grid2 container spacing={2}>
@@ -42,10 +43,12 @@ export default function CheckoutPage() {
             <CheckoutStepper />
           </Elements>
         )}
+
+
       </Grid2>
       <Grid2 size={4}>
         <OrderSummary />
       </Grid2>
     </Grid2>
-  );
+  )
 }
