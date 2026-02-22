@@ -2,11 +2,15 @@
 using System;
 using API.Data;
 using API.DTOs;
+<<<<<<< HEAD
 using API.Entities.OrderAggregate;
+=======
+>>>>>>> 13bdc0858edce8ee09b20d1253cf3f6628287587
 using API.Extensions;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+<<<<<<< HEAD
 using Microsoft.EntityFrameworkCore;
 using Stripe;
 
@@ -14,6 +18,12 @@ namespace API.Controllers;
 
 public class PaymentsController(PaymentsService paymentsService, 
 StoreContext context, IConfiguration config, ILogger<PaymentsController> logger) : BaseApiController
+=======
+
+namespace API.Controllers;
+
+public class PaymentsController(PaymentsService paymentsService, StoreContext context) : BaseApiController
+>>>>>>> 13bdc0858edce8ee09b20d1253cf3f6628287587
 {
     [Authorize]
     [HttpPost]
